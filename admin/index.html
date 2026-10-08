@@ -113,6 +113,15 @@ button{font:inherit;color:inherit;cursor:pointer}
  .mobtabs .b{flex:1;justify-content:center;background:var(--card);padding:13px}.mobtabs .b.p{background:var(--wine)}
  .pv.full .pvbar .seg{display:none}
 }
+.visb{white-space:nowrap}
+.vgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin:14px 0 18px}
+.vgrid div{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px}
+.vgrid b{display:block;font:500 30px/1 var(--fd);color:var(--wine)}
+.vgrid span{font:500 11px var(--fm);letter-spacing:.1em;text-transform:uppercase;color:var(--mute)}
+.vbars{display:flex;align-items:flex-end;gap:5px;height:120px;padding:8px 0;border-bottom:1px solid var(--line2)}
+.vbars i{flex:1;background:var(--wine);border-radius:5px 5px 0 0;min-height:3px;opacity:.85;position:relative}
+.vbars i.z{background:var(--line2)}
+.vlab{display:flex;justify-content:space-between;font:500 10.5px var(--fm);color:var(--dim);margin-top:6px}
 </style>
 </head>
 <body>
@@ -133,6 +142,7 @@ button{font:inherit;color:inherit;cursor:pointer}
   <div class="status" id="status"><i></i><span>Up to date</span></div>
   <div class="acts">
    <a class="b s hide-m" href="/" target="_blank" rel="noopener">View site ↗</a>
+   <button class="b s visb" id="visb" type="button" title="Who has visited your site">👀 Visitors</button>
    <button class="b s hide-m" id="histb" type="button">History</button>
    <button class="b s hide-m" id="lockb" type="button" title="Sign out">Lock</button>
    <button class="b p" id="pub" type="button" disabled>Publish</button>
@@ -150,6 +160,7 @@ button{font:inherit;color:inherit;cursor:pointer}
 </div>
 
 <div class="drawer" id="drawer"><div class="dpanel"><div style="display:flex;justify-content:space-between;align-items:center"><div class="k">Past versions</div><button class="b s" id="dclose" type="button">Close</button></div><h3>History</h3><p style="color:var(--mute);margin:0 0 10px">Every publish is kept. Load one to check it in the preview, then publish it again if you want it back.</p><div id="vers"></div></div></div>
+<div class="drawer" id="vdrawer"><div class="dpanel"><div style="display:flex;justify-content:space-between;align-items:center"><div class="k">Your readers</div><button class="b s" id="vclose" type="button">Close</button></div><h3>Visitors</h3><p style="color:var(--mute);margin:0">People who opened your portfolio, counted once per person per day. Your own visits on this device are not counted.</p><div id="vbody"><p>Loading…</p></div></div></div>
 <div class="toast" id="toast" role="status"></div>
 
 <script>
@@ -257,8 +268,17 @@ $('#lform').onsubmit=async e=>{e.preventDefault();const k=$('#pw').value;if(!k)r
 async function start(info){$('#login').hidden=true;$('#app').hidden=false;
  const r=await fetch('/api/content',{cache:'no-store'});const j=await r.json();C=j.content;PUB=JSON.stringify(C);savedAt=j.savedAt;
  const d=ls.get('pu_draft');if(d){try{const o=JSON.parse(d);if(JSON.stringify(o.c)!==PUB&&confirm('You have unpublished edits from last time. Bring them back?'))C=o.c;else ls.del('pu_draft')}catch(e){}}
- side();draw();mark();push();if(info&&info.storage===false)toast('Heads up: saving is not switched on yet, so Publish will not work until it is.',5200)}
+ try{localStorage.setItem('pu_admin','1')}catch(e){}visCount();side();draw();mark();push();if(info&&info.storage===false)toast('Heads up: saving is not switched on yet, so Publish will not work until it is.',5200)}
 $('#pub').onclick=publish;$('#mpub').onclick=publish;$("#histb").onclick=showHistory;$("#mhist").onclick=showHistory;$('#dclose').onclick=()=>$('#drawer').classList.remove('on');$('#drawer').onclick=e=>{if(e.target.id==='drawer')$('#drawer').classList.remove('on')};
+async function showVisitors(){$('#vdrawer').classList.add('on');const B=$('#vbody');B.innerHTML='<p>Loading…</p>';
+ try{const r=await api('/api/stats');const j=await r.json();if(r.status===401){lock();throw new Error('Signed out. Please enter the password again.')}if(!r.ok)throw new Error(j.error||'Could not load visitors');
+  const mx=Math.max(1,...j.days.map(d=>d.count)),fmt=d=>new Date(d+'T12:00:00Z').toLocaleDateString(undefined,{day:'numeric',month:'short'});
+  B.innerHTML=`<div class="vgrid"><div><b>${j.today}</b><span>Today</span></div><div><b>${j.week}</b><span>Last 7 days</span></div><div><b>${j.month}</b><span>Last 30 days</span></div><div><b>${j.total}</b><span>All time</span></div></div>
+  <div class="k">Last 14 days</div><div class="vbars">${j.days.map(d=>`<i class="${d.count?'':'z'}" style="height:${Math.round(d.count/mx*100)}%" title="${fmt(d.day)}: ${d.count}"></i>`).join('')}</div>
+  <div class="vlab"><span>${fmt(j.days[0].day)}</span><span>Today</span></div>${j.total?'':'<p style="color:var(--mute);margin-top:14px">No visitors counted yet. Counting started today, so share your link and check back.</p>'}`;
+  $('#visb').textContent='👀 '+j.today+' today'}catch(e){B.innerHTML=`<p>${esc(e.message||'Could not load visitors')}</p>`}}
+async function visCount(){try{const r=await api('/api/stats');if(!r.ok)return;const j=await r.json();$('#visb').textContent='👀 '+j.today+' today'}catch(e){}}
+$('#visb').onclick=showVisitors;$('#vclose').onclick=()=>$('#vdrawer').classList.remove('on');$('#vdrawer').onclick=e=>{if(e.target.id==='vdrawer')$('#vdrawer').classList.remove('on')};
 $('#lockb').onclick=()=>{if(dirty()&&!confirm('Lock the desk? Your unpublished edits stay saved on this device.'))return;lock()};
 $$('.seg button').forEach(b=>b.onclick=()=>{$$('.seg button').forEach(x=>x.classList.toggle('on',x===b));$('#frame').classList.toggle('phone',b.dataset.w==='phone')});
 $('#mprev').onclick=()=>{$('#pv').classList.add('full');$('#pvclose').hidden=false;$('#frame').classList.remove('phone');push()};$('#pvclose').onclick=()=>{$('#pv').classList.remove('full');$('#pvclose').hidden=true};

@@ -683,5 +683,9 @@ $('#tourb').onclick=startTour;$('#invgo').onclick=startTour;$('#invno').onclick=
 if(!PREVIEW&&!store.get('pu_tour')&&!/[?&]notour/.test(location.search))setTimeout(()=>{if(ti<0)$('#invite').classList.add('on')},3600);
 if(!PREVIEW&&/[?&]tour/.test(location.search)&&!/notour/.test(location.search))setTimeout(startTour,1800);
 </script>
+<script>
+/* visitor count: one ping per browser per day, skips the editor preview and Praise's own devices */
+(function(){try{if(window.top!==window||/[?&]preview=/.test(location.search)||navigator.webdriver||localStorage.getItem('pu_admin'))return;var d=new Date(Date.now()+36e5).toISOString().slice(0,10);if(localStorage.getItem('pu_seen')===d)return;fetch('/api/hit',{method:'POST',keepalive:true,headers:{'x-pu':'1'}}).then(function(r){if(r.ok)localStorage.setItem('pu_seen',d)}).catch(function(){})}catch(e){}})();
+</script>
 </body>
 </html>
