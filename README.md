@@ -1,5 +1,9 @@
 # Praise Ucho · portfolio
 
-Writer & brand strategist. A single static page that reads like a book: eight chapters, a live rewrite lab, a book-shelf reader, tap-to-read fiction and a sealed letter that opens email.
+A single page that reads like a book, plus a private editing desk at `/admin`.
 
-Edit `index.html` and push; Vercel redeploys on its own.
+- `index.html` renders everything from the content (saved version first, `content.default.json` as fallback).
+- `/admin` is Praise's desk: edit every chapter with a live preview, upload a photo, publish, and restore past versions from History.
+- `api/` holds small serverless functions. Published content and photos live in Vercel Blob; every publish is kept as its own version (last 40).
+
+Needs two settings on the Vercel project: a Blob store connected (gives `BLOB_READ_WRITE_TOKEN`) and `ADMIN_PASSWORD`.

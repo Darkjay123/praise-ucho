@@ -256,7 +256,7 @@ h2 em{font-style:italic;color:var(--wine)}
 .letter .to{font:500 12px var(--fm);color:var(--mute);letter-spacing:.08em}
 .letter .lt{font:500 clamp(25px,2.6vw,31px)/38px var(--fh);color:var(--ink);white-space:pre-wrap;word-break:break-word;min-height:228px;margin-top:14px}
 .letter .lt .ph2{color:var(--dim)}
-.seal{position:absolute;right:28px;bottom:-30px;width:86px;height:86px;border-radius:50%;border:0;background:radial-gradient(circle at 35% 30%,#c13a5c,#7a1430 70%);color:#f7d9a8;font:italic 500 34px var(--fd);cursor:pointer;box-shadow:0 10px 24px -8px rgba(122,20,48,.8),inset 0 -4px 10px rgba(0,0,0,.3);transition:transform .3s}
+.seal{width:86px;height:86px;border-radius:50%;border:0;background:radial-gradient(circle at 35% 30%,#c13a5c,#7a1430 70%);color:#f7d9a8;font:italic 500 34px var(--fd);cursor:pointer;box-shadow:0 10px 24px -8px rgba(122,20,48,.8),inset 0 -4px 10px rgba(0,0,0,.3);transition:transform .3s}
 .seal:hover{transform:scale(1.08) rotate(-8deg)}
 .seal.stamp-in{animation:stampin .6s cubic-bezier(.3,1.6,.5,1)}
 @keyframes stampin{0%{transform:scale(2.2) rotate(-30deg);opacity:0}100%{transform:scale(1);opacity:1}}
@@ -303,17 +303,29 @@ footer .big span{color:var(--wine)}
 }
 @media(hover:none){.book:hover{transform:none}.btn:hover,.dr:hover{transform:none}}
 @media (prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important}.rv,.fl,.storyl{opacity:1;transform:none;filter:none}h1 .w{opacity:1;transform:none}}
+/* seal: lift, hang, stamp */
+.sealzone{position:absolute;right:28px;bottom:-30px;width:86px;height:86px}
+.sealzone .seal{position:absolute;inset:0;right:auto;bottom:auto;width:86px;height:86px}
+.seal span{display:block;transition:opacity .3s}
+.sealshadow{position:absolute;left:8px;right:8px;bottom:-6px;height:16px;border-radius:50%;background:rgba(40,10,20,.45);filter:blur(6px);opacity:.7;pointer-events:none}
+.ripple{position:absolute;inset:0;border-radius:50%;border:3px solid #9c2347;opacity:0;pointer-events:none}
+.sealed-word{position:absolute;right:96px;bottom:22px;font:700 26px var(--fh);color:#8b1e3f;transform:rotate(-8deg) scale(.6);opacity:0;pointer-events:none;white-space:nowrap}
+.seal.pressed{background:radial-gradient(circle at 38% 34%,#a72a4d,#5f0f25 72%);box-shadow:inset 0 3px 8px rgba(0,0,0,.45),inset 0 -2px 4px rgba(255,255,255,.12),0 2px 4px rgba(0,0,0,.3)}
+.seal.pressed span{text-shadow:0 1px 0 rgba(255,255,255,.18),0 -1px 1px rgba(0,0,0,.5);color:#e9c48b}
+.seal.pressed:before{content:'';position:absolute;inset:7px;border-radius:50%;border:1.5px dashed rgba(247,217,168,.45)}
+.seal:disabled{cursor:default}
+[data-preview] .pre{display:none}
 </style>
 </head>
 <body>
-<div class="pre" id="pre" aria-hidden="true"><div><svg viewBox="0 0 120 120"><path class="blot" d="M60 14c14 0 20 12 30 18s18 16 14 32-14 26-30 30-28 4-38-8-16-24-10-40 20-32 34-32z"/></svg><p>Praise Ucho</p></div></div>
+<div class="pre" id="pre" aria-hidden="true"><div><svg viewBox="0 0 120 120"><path class="blot" d="M60 14c14 0 20 12 30 18s18 16 14 32-14 26-30 30-28 4-38-8-16-24-10-40 20-32 34-32z"/></svg><p id="preName">Praise Ucho</p></div></div>
 <div class="paper" aria-hidden="true"></div>
 <canvas id="ink" aria-hidden="true"></canvas>
 <div class="ribbon" aria-hidden="true"><i id="rib"></i></div>
 <div id="gt"></div>
 
 <nav id="nav">
- <a class="sig" href="#top">Praise Ucho <small>WRITER</small></a>
+ <a class="sig" href="#top"><span id="sigName">Praise Ucho</span> <small id="sigTag">WRITER</small></a>
  <div class="nr">
   <button class="lamp" id="lamp" aria-label="Switch between day and night reading" title="Day / night"><i></i></button>
   <div class="lm notranslate" id="lm" translate="no"><button class="nb" id="lmb" aria-haspopup="listbox" aria-expanded="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 010 18M12 3a14 14 0 000 18"/></svg><span class="lbl" id="lmn">English</span></button><div class="lmp" id="lmp" hidden role="listbox"></div></div>
@@ -325,133 +337,102 @@ footer .big span{color:var(--wine)}
 <main id="top">
 <header class="hero">
  <div>
-  <div class="k">Content writer · Brand strategist · Storyteller</div>
-  <h1 aria-label="Praise Ucho"><span class="w" style="animation-delay:.9s">Praise</span><em><span class="w" style="animation-delay:1.05s">Ucho</span></em></h1>
-  <p class="tw" aria-live="polite">I write <b id="tw"></b><span class="car"></span></p>
-  <div class="ctas"><a class="btn p" href="#shelf">Read the work →</a><a class="btn" href="#letter">Start a project</a></div>
+  <div class="k" id="hKick"></div>
+  <h1 id="hName"></h1>
+  <p class="tw" aria-live="polite"><span id="hPre"></span> <b id="tw"></b><span class="car"></span></p>
+  <div class="ctas"><a class="btn p" href="#shelf" id="cta1"></a><a class="btn" href="#letter" id="cta2"></a></div>
  </div>
  <div class="portrait">
-  <div class="arch" id="arch"><img src="praise.jpg" alt="Portrait of Praise Ucho" width="608" height="1080"></div>
-  <svg class="stamp" viewBox="0 0 120 120" aria-hidden="true"><defs><path id="cp" d="M60 60m-44 0a44 44 0 1 1 88 0a44 44 0 1 1-88 0"/></defs><circle cx="60" cy="60" r="7"/><text><textPath href="#cp">STORIES · COPY · SCRIPTS · FICTION ·</textPath></text></svg>
-  <div class="note">she writes stories people finish</div>
+  <div class="arch" id="arch"><img id="hImg" src="praise.jpg" alt="" width="608" height="1080"></div>
+  <svg class="stamp" viewBox="0 0 120 120" aria-hidden="true"><defs><path id="cp" d="M60 60m-44 0a44 44 0 1 1 88 0a44 44 0 1 1-88 0"/></defs><circle cx="60" cy="60" r="7"/><text><textPath href="#cp" id="hStamp"></textPath></text></svg>
+  <div class="note" id="hNote"></div>
  </div>
 </header>
 
-<div class="stats" id="stats">
- <div><b data-n="4">0</b><span>years writing</span></div>
- <div><b data-n="2">0</b><span>years scriptwriting</span></div>
- <div><b data-n="5">0</b><span>platforms, one voice</span></div>
- <div><b data-n="2">0</b><span>stories in progress</span></div>
-</div>
+<div class="stats" id="stats"></div>
 <div class="mq" aria-hidden="true"><div class="t" id="mq"></div></div>
 
-<section class="ch rv" id="about">
- <div class="chh"><div class="num">I</div><div><div class="k">Chapter one · The writer</div><h2>Stories people <em>finish.</em></h2></div></div>
+<section class="ch rv" id="about" data-sec>
+ <div class="chh"></div>
  <div class="about">
-  <div class="body sharable">
-   <p>I'm Praise Ucho, a writer who turns products, ideas, and complex topics into stories that hold attention and move people to act.</p>
-   <p>My work runs on one belief: strategy decides what a brand says, and story decides whether anyone listens. I take time to understand the product, the brand, and the people it's meant to reach before I write a word, then refine until the work fits the vision and does its job.</p>
-   <p>Four years of writing stand behind that claim, two of them scripting stories; the craft has been daily practice long before it became a career.</p>
-   <div class="tip">✎ Highlight any line on this page to share it.</div>
-  </div>
-  <aside class="belief"><q>Strategy decides what a brand <b>says.</b> Story decides whether anyone <b>listens.</b></q><span class="hand">— the one rule</span></aside>
+  <div class="body sharable"><div id="aBody"></div><div class="tip">✎ Highlight any line on this page to share it.</div></div>
+  <aside class="belief"><q id="aBelief"></q><span class="hand" id="aSign"></span></aside>
  </div>
 </section>
 
-<section class="ch rv" id="edit">
- <div class="chh"><div class="num">II</div><div><div class="k">Chapter two · The edit</div><h2>Watch an ad become <em>a story.</em></h2><p class="lead">Drag the pen. On the left, the ad everyone scrolls past. On the right, the one people stop for. Both are from Praise's own article.</p></div></div>
+<section class="ch rv" id="edit" data-sec>
+ <div class="chh"></div>
  <div class="lab" id="lab">
-  <div class="pane ad"><span class="k">Draft · the shout</span>
-   <div class="shout c1">50% off!</div><div class="shout c2">Limited stock!</div><div class="shout c3">Buy now!</div>
-   <div class="margin" id="mn">you scroll past without thinking</div>
-  </div>
-  <div class="pane st sharable"><span class="k">Final · the story</span>
-   <p class="storyl">A young woman getting ready for her first job interview.</p>
-   <p class="storyl">Before she leaves the house, she reaches for a perfume sitting on her dressing table, a gift from her mother on graduation day.</p>
-   <p class="storyl">She sprays it on, smiles at herself in the mirror, takes a deep breath, and walks out the door.</p>
-   <p class="storyl q">“Confidence isn't always loud. Sometimes, it smells familiar.”</p>
-  </div>
+  <div class="pane ad"><span class="k">Draft · the shout</span><div id="eAd"></div><div class="margin" id="mn"></div></div>
+  <div class="pane st sharable"><span class="k">Final · the story</span><div id="eStory"></div></div>
   <div class="scrub"><span>Shouting</span><input type="range" id="pen" min="0" max="100" value="0" aria-label="Edit from ad to story"><span>Story</span><button class="btn" id="play" type="button">▶ Play the edit</button></div>
-  <p class="moral">You didn't stop because of the perfume. <b>You stopped because of the story.</b></p>
+  <p class="moral" id="eMoral"></p>
  </div>
 </section>
 
-<section class="ch rv" id="services">
- <div class="chh"><div class="num">III</div><div><div class="k">Chapter three · Contents</div><h2>What I <em>write.</em></h2><p class="lead">Seven ways in. Tap any line to open it.</p></div></div>
+<section class="ch rv" id="services" data-sec>
+ <div class="chh"></div>
  <ol class="toc" id="toc"></ol>
 </section>
 
-<section class="ch rv" id="system">
- <div class="chh"><div class="num">IV</div><div><div class="k">Chapter four · Case study</div><h2>One idea. <em>Five platforms.</em> One voice.</h2></div></div>
+<section class="ch rv" id="system" data-sec>
+ <div class="chh"></div>
  <div class="sys">
   <div class="orbit" id="orbit">
    <svg class="r" viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="38"/><g id="lines"></g></svg>
-   <div class="core">one<br>idea</div>
+   <div class="core" id="sCore"></div>
   </div>
   <div class="sysd">
-   <p class="lead" style="margin-top:0">A Web3 personal brand needed a consistent online presence without duplicating the same post everywhere. I built the system.</p>
-   <ol class="steps">
-    <li>Researched the space and the audience.</li>
-    <li>Drafted the brand's content strategy and a content calendar mapping angles, hooks, and posting cadence.</li>
-    <li>Adapted single core ideas into platform-specific content for LinkedIn, X, Instagram, Facebook, and TikTok.</li>
-    <li>Translated complex Web3 concepts into clear, conversational language for written and spoken formats.</li>
-   </ol>
+   <p class="lead" style="margin-top:0" id="sIntro"></p>
+   <ol class="steps" id="sSteps"></ol>
    <div class="pfocus" id="pfocus"><b>Tap a platform</b>Each one gets its own version of the same idea, never a copy-paste.</div>
-   <p class="result">The result is a repeatable engine: <span>one idea, five platforms, one voice.</span></p>
+   <p class="result" id="sResult"></p>
   </div>
  </div>
 </section>
 
-<section class="ch rv" id="shelf">
- <div class="chh"><div class="num">V</div><div><div class="k">Chapter five · The shelf</div><h2>Selected <em>work.</em></h2><p class="lead">Pull a book off the shelf to read it in full.</p></div></div>
+<section class="ch rv" id="shelf" data-sec>
+ <div class="chh"></div>
  <div class="shelf" id="books"></div>
- <div class="shelfn"><span>5 pieces · content, social, promo, product, fiction</span><span>← swipe the shelf →</span></div>
+ <div class="shelfn"><span id="wCount"></span><span>← swipe the shelf →</span></div>
 </section>
 
-<section class="ch rv" id="story">
- <div class="chh"><div class="num">VI</div><div><div class="k">Chapter six · The story</div><h2>Read it the way <em>it was felt.</em></h2><p class="lead">The storytelling instinct behind the samples also drives the fiction. Tap the page to turn each line.</p></div></div>
+<section class="ch rv" id="story" data-sec>
+ <div class="chh"></div>
  <div class="fic" id="fic" tabindex="0" role="button" aria-label="Tap to read the next line">
-  <div class="k">Fiction excerpt</div>
+  <div class="k" id="fLabel"></div>
   <div id="flines" style="margin-top:24px"></div>
   <div class="fctl" id="fctl" hidden><button type="button" id="fre">↺ Read again</button><button type="button" id="fall">Show it all</button></div>
   <div class="fhint" id="fhint"><i></i>tap to begin</div>
  </div>
 </section>
 
-<section class="ch rv" id="drafts">
- <div class="chh"><div class="num">VII</div><div><div class="k">Chapter seven · On the desk</div><h2>Still <em>writing.</em></h2></div></div>
- <div class="drafts">
-  <div class="dr"><div class="lines"></div><div class="k">Newsletter · Substack</div><h4>The AI Brief</h4><p>A research-driven newsletter on AI, written without jargon, published on Substack.</p><div class="st"><span class="car"></span>in progress</div></div>
-  <div class="dr"><div class="lines"></div><div class="k">Interactive fiction · Chapters</div><h4>A story with choices</h4><p>An original interactive story with branching choices, serialized for readers on the Chapters platform.</p><div class="st"><span class="car"></span>in progress</div></div>
-  <div class="dr"><div class="lines"></div><div class="k">Novel</div><h4>A book</h4><p>An original novel intended for publication, currently in progress.</p><div class="st"><span class="car"></span>in progress</div></div>
- </div>
+<section class="ch rv" id="drafts" data-sec>
+ <div class="chh"></div>
+ <div class="drafts" id="dList"></div>
 </section>
 
-<section class="ch rv" id="letter">
- <div class="chh"><div class="num">VIII</div><div><div class="k">Chapter eight · A letter</div><h2>Let's write something <em>people finish.</em></h2><p class="lead">Available now for content writing, brand storytelling, social copy, and strategy work. Write your note, then press the seal.</p></div></div>
+<section class="ch rv" id="letter" data-sec>
+ <div class="chh"></div>
  <div class="letterw">
   <div class="form">
    <label for="fn">Your name</label><input id="fn" autocomplete="name" placeholder="Ada from Lagos">
    <label>What do you need?</label>
    <div class="chips" id="needs"></div>
    <label for="fm">A few words about it</label><textarea id="fm" rows="3" placeholder="We're launching a new collection next month…"></textarea>
-   <div class="socials">
-    <a href="mailto:uchopraise65@gmail.com">uchopraise65@gmail.com</a>
-    <a href="https://www.linkedin.com/in/praise-ucho-407717378" target="_blank" rel="noopener">LinkedIn</a>
-    <a href="https://x.com/onosverse" target="_blank" rel="noopener">X · @onosverse</a>
-    <a href="https://substack.com/@onosverse" target="_blank" rel="noopener">Substack · @onosverse</a>
-    <a href="https://www.tiktok.com/@praise_el_" target="_blank" rel="noopener">TikTok · @praise_el_</a>
-   </div>
+   <div class="socials" id="cSoc"></div>
   </div>
   <div>
-   <div class="letter"><div class="to">TO: PRAISE UCHO · uchopraise65@gmail.com</div><div class="lt" id="lt"></div><button class="seal" id="seal" type="button" aria-label="Seal and send this letter by email">P</button></div>
-   <p class="sealhint">press the seal to send ↗</p>
+   <div class="letter" id="letterCard"><div class="to" id="cTo"></div><div class="lt" id="lt"></div>
+    <div class="sealzone"><div class="sealshadow" id="sealShadow"></div><div class="ripple" id="ripple"></div><button class="seal" id="seal" type="button" aria-label="Seal and send this letter by email"><span id="sealL">P</span></button><div class="sealed-word" id="sealedWord">sealed</div></div>
+   </div>
+   <p class="sealhint" id="cHint"></p>
   </div>
  </div>
 </section>
 </main>
 
-<footer><div class="big">The <span>end</span>, for now.</div><span>© 2026 Praise Ucho · Content Writer · Brand Strategist · Storyteller</span><a href="#top">Back to the first page ↑</a></footer>
+<footer><div class="big" id="fEnd"></div><span id="fCopy"></span><a href="#top">Back to the first page ↑</a></footer>
 
 <nav class="cbar" id="cbar" aria-label="Chapters"></nav>
 <div class="sel" id="sel" role="toolbar"><button type="button" id="selx">Share on X</button><button type="button" id="selc">Copy</button></div>
@@ -460,16 +441,24 @@ footer .big span{color:var(--wine)}
 <div class="tcard" id="tcard" role="dialog" aria-label="Guided tour"></div>
 <div class="invite" id="invite" role="dialog" aria-label="Tour"><span>First time here? Take the tour</span><button class="go" id="invgo" type="button">Show me</button><button class="no" id="invno" type="button">Skip</button></div>
 <div class="toast" id="toast" role="status"></div>
-
 <script>
 const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
 const RM=matchMedia('(prefers-reduced-motion: reduce)').matches,FINE=matchMedia('(hover:hover) and (pointer:fine)').matches;
-const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const PREVIEW=/[?&]preview=1/.test(location.search);if(PREVIEW)document.documentElement.setAttribute('data-preview','');
+const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const md=(s,tag='em')=>esc(s).replace(/\*([^*]+)\*/g,`<${tag}>$1</${tag}>`);
+const plain=s=>String(s==null?'':s).replace(/\*/g,'');
 let tt;function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('on');clearTimeout(tt);tt=setTimeout(()=>t.classList.remove('on'),2300)}
 const store={get:k=>{try{return localStorage.getItem(k)}catch(e){return null}},set:(k,v)=>{try{localStorage.setItem(k,v)}catch(e){}}};
+let C=null;
+const ORDER=['about','edit','services','system','shelf','story','drafts','letter'];
+const ROMAN=['I','II','III','IV','V','VI','VII','VIII','IX','X'],WORDS=['one','two','three','four','five','six','seven','eight','nine','ten'];
+const PALETTE=['#8b1e3f','#b8862b','#56664b','#2f3b4a','#3b1d2b','#6a3d7a','#a4532c'];
+const on=id=>!C.show||C.show[id]!==false;
 
 /* preloader */
-addEventListener('load',()=>setTimeout(()=>$('#pre').classList.add('out'),RM?0:900));setTimeout(()=>$('#pre').classList.add('out'),2600);
+let loaded=false,contentReady=false;function lift(){if(loaded&&contentReady)$('#pre').classList.add('out')}
+addEventListener('load',()=>setTimeout(()=>{loaded=true;lift()},RM?0:900));setTimeout(()=>$('#pre').classList.add('out'),4000);
 
 /* day / night */
 function theme(t){document.documentElement.dataset.theme=t;store.set('pu_theme',t);$('meta[name=theme-color]').content=t==='night'?'#14100c':'#f3ece0'}
@@ -477,10 +466,9 @@ theme(store.get('pu_theme')||'day');
 $('#lamp').onclick=()=>{const n=document.documentElement.dataset.theme==='night'?'day':'night';theme(n);toast(n==='night'?'Night reading on 🌙':'Day reading on ☀️')};
 
 /* typewriter that revises itself */
-const TW=['stories people finish.','copy that gives brands a voice people remember.','scripts that hook from the first sentence.','product copy that turns browsing into buying.','fiction with real emotional depth.'];
-(function(){const el=$('#tw');if(RM){el.textContent=TW[0];return}let i=0,j=0,del=false;
- (function step(){const w=TW[i];if(!del){el.textContent=w.slice(0,++j);if(j===w.length){del=true;return setTimeout(step,2200)}return setTimeout(step,38+Math.random()*50)}
-  el.textContent=w.slice(0,--j);if(j===0){del=false;i=(i+1)%TW.length;return setTimeout(step,350)}setTimeout(step,18)})()})();
+let twTok=0;function startTW(){const tok=++twTok,el=$('#tw'),L=(C.hero.lines||[]).filter(Boolean);if(!L.length){el.textContent='';return}if(RM){el.textContent=L[0];return}let i=0,j=0,del=false;
+ (function step(){if(tok!==twTok)return;const w=L[i%L.length];if(!del){el.textContent=w.slice(0,++j);if(j>=w.length){del=true;return setTimeout(step,2200)}return setTimeout(step,38+Math.random()*50)}
+  el.textContent=w.slice(0,--j);if(j<=0){del=false;i++;return setTimeout(step,350)}setTimeout(step,18)})()}
 
 /* portrait tilt */
 const arch=$('#arch');if(FINE&&!RM)$('.portrait').addEventListener('pointermove',e=>{const r=arch.getBoundingClientRect(),x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;arch.style.transform=`perspective(900px) rotateY(${x*10}deg) rotateX(${-y*10}deg)`});
@@ -490,27 +478,21 @@ $('.portrait').addEventListener('pointerleave',()=>arch.style.transform='');
 (function(){const c=$('#ink');if(!FINE||RM)return;const x=c.getContext('2d');let W,H,D=Math.min(2,devicePixelRatio||1),pts=[],raf=0;
  function size(){W=c.width=innerWidth*D;H=c.height=innerHeight*D;c.style.width=innerWidth+'px';c.style.height=innerHeight+'px'}size();addEventListener('resize',size);
  addEventListener('pointermove',e=>{pts.push({x:e.clientX*D,y:e.clientY*D,l:1});if(pts.length>40)pts.shift();if(!raf)raf=requestAnimationFrame(draw)});
- function draw(){x.clearRect(0,0,W,H);const col=getComputedStyle(document.documentElement).getPropertyValue('--wine').trim();x.strokeStyle=col;x.lineCap='round';x.lineJoin='round';
+ function draw(){x.clearRect(0,0,W,H);x.strokeStyle=getComputedStyle(document.documentElement).getPropertyValue('--wine').trim();x.lineCap='round';x.lineJoin='round';
   for(let i=1;i<pts.length;i++){const a=pts[i-1],b=pts[i];x.globalAlpha=Math.min(a.l,b.l)*.5;x.lineWidth=(1+b.l*3)*D;x.beginPath();x.moveTo(a.x,a.y);x.lineTo(b.x,b.y);x.stroke()}
   pts.forEach(p=>p.l-=.035);pts=pts.filter(p=>p.l>0);raf=pts.length?requestAnimationFrame(draw):0;if(!raf)x.clearRect(0,0,W,H)}})();
 
 /* ribbon, nav, chapter bar */
-const CH=[['about','I','Writer'],['edit','II','Edit'],['services','III','Contents'],['system','IV','System'],['shelf','V','Work'],['story','VI','Story'],['drafts','VII','Desk'],['letter','VIII','Letter']];
-$('#cbar').innerHTML=CH.map(c=>`<a href="#${c[0]}" data-s="${c[0]}"><b>${c[1]}</b><span class="lbl">${c[2]}</span></a>`).join('');
+let CH=[];
 function onScroll(){const h=document.documentElement,p=scrollY/Math.max(1,h.scrollHeight-innerHeight);$('#rib').style.transform=`scaleX(${p})`;
  $('#nav').classList.toggle('solid',scrollY>40);$('#cbar').classList.toggle('on',scrollY>innerHeight*.6);
- let cur=null;CH.forEach(c=>{const el=document.getElementById(c[0]);if(el&&el.getBoundingClientRect().top<innerHeight*.45)cur=c[0]});
- $$('#cbar a').forEach(a=>{const on=a.dataset.s===cur;if(on&&!a.classList.contains('on')&&a.scrollIntoView)a.parentNode.scrollTo({left:a.offsetLeft-40,behavior:'smooth'});a.classList.toggle('on',on)})}
-addEventListener('scroll',onScroll,{passive:true});onScroll();
-addEventListener('scroll',()=>$$('.rv:not(.in)').forEach(e=>{if(e.getBoundingClientRect().top<innerHeight*.92)e.classList.add('in')}),{passive:true});
-
-/* reveal + counters */
+ let cur=null;CH.forEach(id=>{const el=document.getElementById(id);if(el&&el.getBoundingClientRect().top<innerHeight*.45)cur=id});
+ $$('#cbar a').forEach(a=>{const o=a.dataset.s===cur;if(o&&!a.classList.contains('on'))a.parentNode.scrollTo({left:a.offsetLeft-40,behavior:'smooth'});a.classList.toggle('on',o)});
+ $$('.rv:not(.in)').forEach(e=>{if(e.getBoundingClientRect().top<innerHeight*.92)e.classList.add('in')})}
+addEventListener('scroll',onScroll,{passive:true});
 const io=new IntersectionObserver(es=>es.forEach(e=>{if(!e.isIntersecting)return;e.target.classList.add('in');io.unobserve(e.target)}),{threshold:.12});$$('.rv').forEach(e=>io.observe(e));
-new IntersectionObserver((es,o)=>es.forEach(e=>{if(!e.isIntersecting)return;o.disconnect();$$('#stats b').forEach(b=>{const n=+b.dataset.n;if(RM){b.innerHTML=String(n).padStart(2,'0');return}const t0=performance.now();(function f(t){const p=Math.min(1,(t-t0)/1300);b.innerHTML=String(Math.round(n*(1-Math.pow(1-p,3)))).padStart(2,'0');if(p<1)requestAnimationFrame(f)})(t0)})}),{threshold:.4}).observe($('#stats'));
-
-/* marquee */
-const SV=['Blog writing','Social media copy','Product descriptions','Brand storytelling','Brand content strategy','Scriptwriting','Fiction'];
-$('#mq').innerHTML=[...SV,...SV].map(s=>`<span>${s}</span><span>✦</span>`).join('');
+let counted=false;new IntersectionObserver((es,o)=>es.forEach(e=>{if(!e.isIntersecting||!C)return;o.disconnect();counted=true;countUp()}),{threshold:.4}).observe($('#stats'));
+function countUp(){$$('#stats b').forEach(b=>{const n=+b.dataset.n||0;if(RM||PREVIEW){b.textContent=String(n).padStart(2,'0');return}const t0=performance.now();(function f(t){const p=Math.min(1,(t-t0)/1300);b.textContent=String(Math.round(n*(1-Math.pow(1-p,3)))).padStart(2,'0');if(p<1)requestAnimationFrame(f)})(t0)})}
 
 /* highlight to share */
 const sel=$('#sel');let picked='';
@@ -519,115 +501,174 @@ function showSel(){const s=getSelection();const t=(s&&s.toString()||'').trim();i
  const r=s.getRangeAt(0).getBoundingClientRect();picked=t.length>230?t.slice(0,227)+'…':t;sel.style.left=(r.left+r.width/2+scrollX)+'px';sel.style.top=(r.top+scrollY-6)+'px';sel.classList.add('on')}
 document.addEventListener('mouseup',()=>setTimeout(showSel,10));document.addEventListener('touchend',()=>setTimeout(showSel,250));
 document.addEventListener('selectionchange',()=>{const s=getSelection();if(!s||!s.toString().trim())sel.classList.remove('on')});
-$('#selx').onclick=()=>{open('https://x.com/intent/post?text='+encodeURIComponent('“'+picked+'” — @onosverse')+'&url='+encodeURIComponent(location.origin+location.pathname),'_blank','noopener');sel.classList.remove('on')};
-$('#selc').onclick=()=>{navigator.clipboard&&navigator.clipboard.writeText('“'+picked+'” — Praise Ucho');toast('Line copied ✎');sel.classList.remove('on')};
+$('#selx').onclick=()=>{open('https://x.com/intent/post?text='+encodeURIComponent('“'+picked+'” — '+(C.handle||C.name))+'&url='+encodeURIComponent(location.origin+location.pathname),'_blank','noopener');sel.classList.remove('on')};
+$('#selc').onclick=()=>{navigator.clipboard&&navigator.clipboard.writeText('“'+picked+'” — '+C.name);toast('Line copied ✎');sel.classList.remove('on')};
 
 /* the edit */
-const pen=$('#pen'),shouts=$$('.shout'),story=$$('.storyl');
-function edit(v){pen.style.setProperty('--p',v+'%');shouts.forEach((s,i)=>{const a=Math.max(0,Math.min(100,(v-i*14)*2.6));s.style.setProperty('--x',a);s.style.opacity=v>70?Math.max(.18,1-(v-70)/40):1;s.style.filter=v>78?`blur(${(v-78)/14}px)`:''});
- $('#mn').style.opacity=v>30?1:0;story.forEach((p,i)=>p.classList.toggle('on',v>=30+i*18))}
-pen.oninput=()=>{stopAuto=1;edit(+pen.value)};edit(0);let stopAuto=0;
-let playing=0;function playEdit(){if(playing)return;playing=1;let v=+pen.value>=100?0:+pen.value;const t=setInterval(()=>{if(stopAuto&&!playing)return clearInterval(t);v+=1;pen.value=v;edit(v);if(v>=100){clearInterval(t);playing=0}},RM?1:38)}
+const pen=$('#pen');let stopAuto=0,playing=0;
+function edit(v){pen.style.setProperty('--p',v+'%');const sh=$$('.shout'),st=$$('.storyl'),n=Math.max(1,sh.length);
+ sh.forEach((s,i)=>{const a=Math.max(0,Math.min(100,(v-i*(42/n))*2.6));s.style.setProperty('--x',a);s.style.opacity=v>70?Math.max(.18,1-(v-70)/40):1;s.style.filter=v>78?`blur(${(v-78)/14}px)`:''});
+ $('#mn').style.opacity=v>30?1:0;st.forEach((p,i)=>p.classList.toggle('on',v>=30+i*(66/Math.max(1,st.length))))}
+pen.oninput=()=>{stopAuto=1;edit(+pen.value)};
+function playEdit(){if(playing)return;playing=1;let v=+pen.value>=100?0:+pen.value;const t=setInterval(()=>{v+=1;pen.value=v;edit(v);if(v>=100){clearInterval(t);playing=0}},RM?1:38)}
 $('#play').onclick=()=>{stopAuto=0;playEdit()};
-new IntersectionObserver((es,o)=>es.forEach(e=>{if(e.isIntersecting&&!stopAuto&&+pen.value===0){o.disconnect();setTimeout(()=>{if(!stopAuto)playEdit()},700)}}),{threshold:.55}).observe($('#lab'));
+new IntersectionObserver((es,o)=>es.forEach(e=>{if(e.isIntersecting&&!stopAuto&&+pen.value===0&&!PREVIEW){o.disconnect();setTimeout(()=>{if(!stopAuto)playEdit()},700)}}),{threshold:.55}).observe($('#lab'));
 
-/* contents */
-const SVD=[['Blog & article writing','long-form content that builds trust and keeps readers reading to the end'],['Social media copywriting','captions and posts that stop the scroll and spark a reaction'],['Product descriptions','copy that turns browsing into buying'],['Brand storytelling','narratives that give a brand a voice people remember'],['Brand content strategy','strategy, calendars, and platform-specific adaptation across LinkedIn, X, Instagram, Facebook, and TikTok'],['Scriptwriting','scripts for video and social content that hook from the first sentence'],['Creative writing','fiction and narrative work with real emotional depth']];
-$('#toc').innerHTML=SVD.map((s,i)=>`<li><button type="button" aria-expanded="false"><span class="n">${String(i+1).padStart(2,'0')}</span><span class="t">${s[0]}</span><span class="pg">${['i','ii','iii','iv','v','vi','vii'][i]}</span></button><div class="d"><p>${s[1].charAt(0).toUpperCase()+s[1].slice(1)}.</p></div></li>`).join('');
-$$('#toc li').forEach(li=>li.querySelector('button').onclick=()=>{const o=!li.classList.contains('open');$$('#toc li').forEach(x=>{x.classList.remove('open');x.querySelector('button').setAttribute('aria-expanded','false')});if(o){li.classList.add('open');li.querySelector('button').setAttribute('aria-expanded','true')}});
-
-/* one idea, five platforms */
-const PL=[['LinkedIn','The professional angle: the same idea framed around lessons, credibility and what it means for the reader\'s work.'],['X','The sharp angle: a hook in the first line, short and quotable, built for the timeline.'],['Instagram','The visual angle: the idea carried by an image or carousel, with a caption that finishes the thought.'],['Facebook','The conversational angle: written for community, comments and sharing with people you know.'],['TikTok','The spoken angle: a script that hooks from the first sentence and explains it out loud.']];
-const orb=$('#orbit');let lines='';PL.forEach((p,i)=>{const a=-Math.PI/2+i*2*Math.PI/5,x=50+38*Math.cos(a),y=50+38*Math.sin(a);lines+=`<line x1="50" y1="50" x2="${x}" y2="${y}" data-i="${i}"/>`;
- const b=document.createElement('button');b.className='pl';b.type='button';b.textContent=p[0];b.style.left=x+'%';b.style.top=y+'%';b.onclick=()=>pick(i);orb.appendChild(b)});
-$('#lines').innerHTML=lines;
-function pick(i){$$('.pl').forEach((b,j)=>b.classList.toggle('on',j===i));$$('#lines line').forEach((l,j)=>l.classList.toggle('on',j===i));const f=$('#pfocus');f.style.opacity=0;setTimeout(()=>{f.innerHTML=`<b>${PL[i][0]}</b>${PL[i][1]}`;f.style.opacity=1},180)}
-let auto=0,autoT=null;new IntersectionObserver(es=>es.forEach(e=>{clearInterval(autoT);if(e.isIntersecting&&!RM)autoT=setInterval(()=>{if(!orb.matches(':hover'))pick(auto++%5)},2600)}),{threshold:.4}).observe(orb);
+/* orbit */
+let autoT=null,autoI=0;const orb=$('#orbit');
+function pick(i){const P=C.system.platforms||[];if(!P[i])return;$$('.pl').forEach((b,j)=>b.classList.toggle('on',j===i));$$('#lines line').forEach((l,j)=>l.classList.toggle('on',j===i));const f=$('#pfocus');f.style.opacity=0;setTimeout(()=>{f.innerHTML=`<b>${esc(P[i].name)}</b>${esc(P[i].note)}`;f.style.opacity=1},180)}
+new IntersectionObserver(es=>es.forEach(e=>{clearInterval(autoT);if(e.isIntersecting&&!RM)autoT=setInterval(()=>{const n=(C.system.platforms||[]).length;if(n&&!orb.matches(':hover'))pick(autoI++%n)},2600)}),{threshold:.4}).observe(orb);
 orb.addEventListener('click',()=>clearInterval(autoT));
 
-/* the shelf + reader */
-const W=[
- {k:'Content Writing · Marketing & Brand Storytelling',t:'Why Customers Buy Stories, Not Just Products',m:2,c:'#8b1e3f',w:104,h:350,pr:'narrative structure that makes a marketing idea feel human.',
-  b:['People don\'t just buy products. They buy the story they believe the product will help them live.','Imagine you\'re scrolling through Instagram. The first post says: 50% OFF! LIMITED STOCK! BUY NOW! You scroll past without thinking.','Then another post catches your attention. It\'s a short video of a young woman getting ready for her first job interview. Before she leaves the house, she reaches for a perfume sitting on her dressing table, a gift from her mother on graduation day. She sprays it on, smiles at herself in the mirror, takes a deep breath, and walks out the door.','>“Confidence isn\'t always loud. Sometimes, it smells familiar.”','Without realizing it, you\'ve watched the entire video. You didn\'t stop because of the perfume. You stopped because of the story.','That\'s the difference between selling a product and selling a feeling. A story.','Consumers are exposed to an estimated 4,000 to 10,000 advertisements every day. Most are forgotten almost immediately, because they all compete the same way: shouting for attention and pushing for an immediate transaction. “Buy now.” “Limited offer.” “20% off, ending today.” Eventually, every ad starts sounding generic.','Yet every once in a while, one stays with us — not because it was louder or cheaper, but because it made us feel something. That\'s the power of storytelling.','Businesses often believe customers buy because of features and specifications. Those things matter, but if features alone sold products, every company offering similar quality at a similar price would enjoy the same success. They don\'t — because people mostly buy on emotion, and justify the decision with logic afterward.','#Excerpt from a 1,540-word article. The full version is available on request.']},
- {k:'Copywriting · Social Media Marketing',t:'Perfume Brand Instagram Launch Caption',m:1,c:'#b8862b',w:88,h:310,pr:'brand voice and copy that carries a reader to the buy.',
-  b:['As a woman, whether you\'re walking into an interview, a meeting, or your next big opportunity, the impression you leave should linger long after you\'ve gone.','And after a date, you want to leave behind something unforgettable. A scent that quietly says, “Remember me.”','Your confidence should speak through your posture, your outfit, and most especially, your scent. The right fragrance doesn\'t just complete your look — it becomes part of your presence.','That\'s why we\'ve curated collections for women who want a fragrance that lasts all day and matches their personality and lifestyle.','From our El Floral Collection to our Age Strong Collection, we bring luxurious fragrances to women who want premium scents without paying luxury prices.','Because smelling good shouldn\'t only be for special occasions, it should be part of your everyday confidence.','>We don\'t just sell perfume. We sell identity. We sell long-lasting confidence. We sell unforgettable impressions.','Ready to find your signature scent?','Click the link in our bio, explore our collections, add your favourites to your cart, and we\'ll take care of the rest.']},
- {k:'Copywriting · Promotional Marketing & E-commerce',t:'JMarket Promotion',m:1,c:'#56664b',w:78,h:290,pr:'promotional copy built to drive one clear action.',
-  b:['#Excerpt: opening of a limited-time promotional campaign.','Now imagine watching it on a 100-inch TV from the comfort of your living room.','Sounds expensive?','Not anymore.','JMarket is giving you 20% OFF selected products, making it easier to get the items you\'ve always wanted at prices you\'ll love.','Whether you\'ve been planning to upgrade your home, replace an old appliance, or finally buy that item you\'ve been postponing, this is the perfect opportunity to save while you shop.','Why pay full price when you don\'t have to? The same quality. Just at a better price.','>Spend less. Enjoy more.','Click the link below to start shopping before the offer ends.']},
- {k:'Copywriting · Product Description',t:'Fashion (Men\'s Shoe)',m:1,c:'#2f3b4a',w:84,h:322,pr:'product storytelling that sells the feeling first.',
-  b:['There\'s a kind of confidence that shows up in your stride before anyone compliments the shoes.','That\'s what this pair does: it makes a silent but solid statement.','Made with the intention to stand out, this men\'s shoe instantly elevates your confidence the moment you put it on.','Soft on the foot, sturdy where it counts. From the boardroom entrance to the second date to the interview where first impressions decide everything, it serves every purpose with grace.','Pair it with any outfit to deliver effortless luxury.','*Soft, airy material|Elevated, strong sole|Luxurious design|Strong leather|Available sizes 42–46']},
- {k:'Creative Writing · Fiction',t:'Fiction Excerpt',m:1,c:'#3b1d2b',w:96,h:336,pr:'an original voice with full command of tension and rhythm.',
-  b:['The storytelling instinct that guides the samples above also drives my fiction. A brief piece in a different tone:','I hear it, my name.','I look around, hoping it\'s someone else, but no.','He points at me…gesturing for me to wait.','My heart drops to my stomach. Not fear…just that sinking disappointment.','He starts walking towards me. Slowly.','Everything else fades. The noise. The movement. The people.','It\'s just that one sound now, my name being called, and it\'s what put me to a halt. I freeze.','… I hate it.','Being called. Being noticed. Being put in the spotlight. It does something to me.','Something I can\'t explain…','This time,','>…it\'s already too late to run.']}];
-$('#books').innerHTML=W.map((w,i)=>`<button class="book" type="button" data-i="${i}" style="background:${w.c};--w:${w.w}px;--h:${w.h}px" aria-label="Read: ${esc(w.t)}"><span class="bn">0${i+1}</span><span class="bt">${esc(w.t)}</span><span class="bk">${esc(w.k.split(' · ')[0])}</span></button>`).join('')+'<div class="lean" aria-hidden="true"></div>';
-$$('.book').forEach(b=>b.onclick=()=>openBook(+b.dataset.i));
-let cur=0,fs=+(store.get('pu_fs')||20),lastFocus=null;
-function para(p){if(p[0]==='>')return`<p class="pull">${esc(p.slice(1))}</p>`;if(p[0]==='#')return`<p class="ex">${esc(p.slice(1))}</p>`;if(p[0]==='*')return`<ul class="feat">${p.slice(1).split('|').map(f=>`<li>${esc(f)}</li>`).join('')}</ul>`;return`<p>${esc(p)}</p>`}
-function openBook(i){cur=(i+W.length)%W.length;const w=W[cur];lastFocus=lastFocus||document.activeElement;
- $('#rk').textContent=`${String(cur+1).padStart(2,'0')} · ${w.m} min read`;$('#rb').innerHTML=`<div class="kk">${esc(w.k)}</div><h3>${esc(w.t)}</h3><p class="proves">What it proves: ${esc(w.pr)}</p>${w.b.map(para).join('')}`;
- $('#rb').scrollTop=0;$('#rp').style.width='0';$('#rn').textContent=`${cur+1} / ${W.length}`;$('#rb').style.setProperty('--fs',fs+'px');
+/* reader */
+let works=[],cur=0,fs=+(store.get('pu_fs')||20),lastFocus=null;
+function para(p){p=p.trim();if(!p)return'';if(p[0]==='>')return`<p class="pull">${esc(p.slice(1).trim())}</p>`;if(p[0]==='#')return`<p class="ex">${esc(p.slice(1).trim())}</p>`;if(p[0]==='*')return`<ul class="feat">${p.slice(1).split('|').map(f=>f.trim()).filter(Boolean).map(f=>`<li>${esc(f)}</li>`).join('')}</ul>`;return`<p>${esc(p).replace(/\n/g,'<br>')}</p>`}
+function openBook(i){if(!works.length)return;cur=(i+works.length)%works.length;const w=works[cur];lastFocus=lastFocus||document.activeElement;
+ $('#rk').textContent=`${String(cur+1).padStart(2,'0')} · ${w.minutes||1} min read`;$('#rb').innerHTML=`<div class="kk">${esc(w.category)}</div><h3>${esc(w.title)}</h3>${w.proves?`<p class="proves">What it proves: ${esc(w.proves)}</p>`:''}${String(w.body||'').split(/\n\s*\n/).map(para).join('')}`;
+ $('#rb').scrollTop=0;$('#rp').style.width='0';$('#rn').textContent=`${cur+1} / ${works.length}`;$('#rb').style.setProperty('--fs',fs+'px');
  const r=$('#reader');if(!r.classList.contains('on')){r.classList.add('on');r.setAttribute('aria-hidden','false');document.body.style.overflow='hidden';setTimeout(()=>$('#rx').focus(),400)}
- else{const pg=$('.page');pg.animate([{transform:'rotateY(-25deg)',opacity:.4},{transform:'none',opacity:1}],{duration:RM?1:500,easing:'cubic-bezier(.2,.8,.2,1)'})}}
+ else $('.page').animate([{transform:'rotateY(-25deg)',opacity:.4},{transform:'none',opacity:1}],{duration:RM?1:500,easing:'cubic-bezier(.2,.8,.2,1)'})}
 function closeBook(){const r=$('#reader');r.classList.remove('on');r.setAttribute('aria-hidden','true');document.body.style.overflow='';if(lastFocus&&lastFocus.focus)lastFocus.focus();lastFocus=null}
-$('#rx').onclick=closeBook;$('#reader').onclick=e=>{if(e.target.id==='reader')closeBook()};
-$('#rprev').onclick=()=>openBook(cur-1);$('#rnext').onclick=()=>openBook(cur+1);
+$('#rx').onclick=closeBook;$('#reader').onclick=e=>{if(e.target.id==='reader')closeBook()};$('#rprev').onclick=()=>openBook(cur-1);$('#rnext').onclick=()=>openBook(cur+1);
 $('#rb').addEventListener('scroll',()=>{const b=$('#rb');$('#rp').style.width=Math.min(100,b.scrollTop/Math.max(1,b.scrollHeight-b.clientHeight)*100)+'%'});
 $('#aplus').onclick=()=>{fs=Math.min(26,fs+1);store.set('pu_fs',fs);$('#rb').style.setProperty('--fs',fs+'px')};$('#aminus').onclick=()=>{fs=Math.max(16,fs-1);store.set('pu_fs',fs);$('#rb').style.setProperty('--fs',fs+'px')};
 addEventListener('keydown',e=>{if(!$('#reader').classList.contains('on'))return;if(e.key==='Escape')closeBook();if(e.key==='ArrowRight')openBook(cur+1);if(e.key==='ArrowLeft')openBook(cur-1)});
 
-/* tap-to-read fiction */
-const FL=['I hear it, my name.','I look around, hoping it\'s someone else, but no.','He points at me…gesturing for me to wait.','My heart drops to my stomach. Not fear…just that sinking disappointment.','He starts walking towards me. Slowly.','Everything else fades. The noise. The movement. The people.','It\'s just that one sound now, my name being called, and it\'s what put me to a halt. I freeze.','… I hate it.','Being called. Being noticed. Being put in the spotlight. It does something to me.','Something I can\'t explain…','This time,','…it\'s already too late to run.'];
-let fi=0;const fic=$('#fic'),flw=$('#flines');
-function fstep(){if(fi>=FL.length)return;const p=document.createElement('p');p.className='fl'+(fi===FL.length-1?' big last':'');p.textContent=FL[fi];flw.appendChild(p);requestAnimationFrame(()=>requestAnimationFrame(()=>p.classList.add('on')));
- if(fi===3)p.classList.add('beat');if(fi===5)fic.classList.add('dim');fi++;$('#fhint').innerHTML=fi<FL.length?`<i></i>${fi} / ${FL.length} · tap to continue`:'';if(fi>=FL.length){$('#fctl').hidden=false;fic.classList.remove('dim')}}
+/* fiction */
+let FL=[],fi=0;const fic=$('#fic'),flw=$('#flines');
+function fstep(){if(fi>=FL.length)return;const last=fi===FL.length-1,p=document.createElement('p');p.className='fl'+(last?' big last':'');p.textContent=FL[fi];flw.appendChild(p);requestAnimationFrame(()=>requestAnimationFrame(()=>p.classList.add('on')));
+ if(fi===Math.floor(FL.length/3))p.classList.add('beat');if(fi===Math.floor(FL.length/2))fic.classList.add('dim');fi++;$('#fhint').innerHTML=fi<FL.length?`<i></i>${fi} / ${FL.length} · tap to continue`:'';if(fi>=FL.length){$('#fctl').hidden=false;fic.classList.remove('dim')}}
+function freset(){flw.innerHTML='';fi=0;$('#fctl').hidden=true;$('#fhint').innerHTML='<i></i>tap to begin';fic.classList.remove('dim')}
 fic.addEventListener('click',e=>{if(e.target.closest('.fctl'))return;fstep()});fic.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();fstep()}});
 fic.addEventListener('pointermove',e=>{const r=fic.getBoundingClientRect();fic.style.setProperty('--sx',(e.clientX-r.left)+'px');fic.style.setProperty('--sy',(e.clientY-r.top)+'px')});
-$('#fre').onclick=()=>{flw.innerHTML='';fi=0;$('#fctl').hidden=true;$('#fhint').innerHTML='<i></i>tap to begin';fic.classList.remove('dim')};
-$('#fall').onclick=()=>{while(fi<FL.length)fstep();fic.classList.remove('dim')};
+$('#fre').onclick=freset;$('#fall').onclick=()=>{while(fi<FL.length)fstep();fic.classList.remove('dim')};
 
-/* the letter */
-const NEEDS=['Blog & articles','Social copy','Product descriptions','Brand storytelling','Content strategy','Scripts','Fiction'];let need=new Set();
-$('#needs').innerHTML=NEEDS.map(n=>`<button type="button" class="chip">${n}</button>`).join('');
-$$('#needs .chip').forEach(c=>c.onclick=()=>{c.classList.toggle('on');c.classList.contains('on')?need.add(c.textContent):need.delete(c.textContent);letter()});
-function letterText(){const n=$('#fn').value.trim(),m=$('#fm').value.trim(),nd=[...need];
- return `Dear Praise,\n\n${nd.length?`I'd love your help with ${nd.length>1?nd.slice(0,-1).join(', ').toLowerCase()+' and '+nd.slice(-1)[0].toLowerCase():nd[0].toLowerCase()}.`:'I have a project I think you\'d be perfect for.'}${m?'\n\n'+m:''}\n\nWarmly,\n${n||'…'}`}
-function letter(){const n=$('#fn').value.trim();$('#lt').innerHTML=esc(letterText()).replace(/…$/,'<span class="ph2">your name</span>')}
-$('#fn').oninput=letter;$('#fm').oninput=letter;letter();
-$('#seal').onclick=()=>{const s=$('#seal');s.classList.remove('stamp-in');void s.offsetWidth;s.classList.add('stamp-in');const n=$('#fn').value.trim();
- setTimeout(()=>{location.href=`mailto:uchopraise65@gmail.com?subject=${encodeURIComponent('A project for you'+(n?' · from '+n:''))}&body=${encodeURIComponent(letterText())}`;toast('Sealed. Opening your email ✉︎')},RM?0:550)};
+/* the letter + the seal */
+let need=new Set();
+function letterText(){const n=$('#fn').value.trim(),m=$('#fm').value.trim(),nd=[...need],first=(C.name||'').split(' ')[0]||'there';
+ return `Dear ${first},\n\n${nd.length?`I'd love your help with ${nd.length>1?nd.slice(0,-1).join(', ').toLowerCase()+' and '+nd.slice(-1)[0].toLowerCase():nd[0].toLowerCase()}.`:'I have a project I think you\'d be perfect for.'}${m?'\n\n'+m:''}\n\nWarmly,\n${n||'…'}`}
+function letter(){$('#lt').innerHTML=esc(letterText()).replace(/…$/,'<span class="ph2">your name</span>');if(sealed)unseal()}
+$('#fn').oninput=letter;$('#fm').oninput=letter;
+let sealed=false,sealing=false;
+function unseal(){sealed=false;const s=$('#seal');s.classList.remove('pressed');s.disabled=false;$('#sealedWord').style.opacity=0;$('#sealShadow').style.opacity='';}
+function anim(el,kf,o){return el.animate?el.animate(kf,Object.assign({fill:'forwards'},o)).finished.catch(()=>{}):Promise.resolve()}
+$('#seal').onclick=async()=>{if(sealing)return;sealing=true;const s=$('#seal'),sh=$('#sealShadow'),rp=$('#ripple'),card=$('#letterCard'),w=$('#sealedWord');s.disabled=true;
+ const fast=RM?1:0;
+ if(!fast){
+  /* 1. pop out: the seal lifts off the paper, its shadow drifts away and softens */
+  await Promise.all([
+   anim(s,[{transform:'none'},{transform:'translate(-16px,-92px) scale(1.42) rotate(-18deg)'}],{duration:460,easing:'cubic-bezier(.2,.9,.3,1.25)'}),
+   anim(sh,[{transform:'none',opacity:.7,filter:'blur(6px)'},{transform:'translate(-8px,10px) scale(1.7)',opacity:.22,filter:'blur(14px)'}],{duration:460,easing:'ease-out'})]);
+  /* 2. hang in the air for a beat, tiny wobble */
+  await anim(s,[{transform:'translate(-16px,-92px) scale(1.42) rotate(-18deg)'},{transform:'translate(-14px,-98px) scale(1.44) rotate(-12deg)'},{transform:'translate(-16px,-92px) scale(1.42) rotate(-16deg)'}],{duration:260,easing:'ease-in-out'});
+  /* 3. stamp down hard */
+  await Promise.all([
+   anim(s,[{transform:'translate(-16px,-92px) scale(1.42) rotate(-16deg)'},{transform:'translate(0,0) scale(.94) rotate(0)'}],{duration:170,easing:'cubic-bezier(.7,0,1,.6)'}),
+   anim(sh,[{transform:'translate(-8px,10px) scale(1.7)',opacity:.22,filter:'blur(14px)'},{transform:'scale(.9)',opacity:.85,filter:'blur(3px)'}],{duration:170,easing:'cubic-bezier(.7,0,1,.6)'})]);
+  /* 4. impact: squash, ring of pressed wax, the letter jolts */
+  s.classList.add('pressed');
+  anim(rp,[{transform:'scale(.9)',opacity:.9,borderWidth:'6px'},{transform:'scale(2.3)',opacity:0,borderWidth:'1px'}],{duration:620,easing:'cubic-bezier(.1,.7,.3,1)'});
+  anim(card,[{transform:getComputedStyle(card).transform==='none'?'none':getComputedStyle(card).transform},{transform:'rotate(1deg) translateY(4px)'},{transform:'rotate(.6deg) translateY(-2px)'},{transform:getComputedStyle(card).transform==='none'?'none':getComputedStyle(card).transform}],{duration:300,easing:'ease-out',fill:'none'});
+  if(navigator.vibrate)try{navigator.vibrate(18)}catch(e){}
+  await anim(s,[{transform:'scale(1.12,.86)'},{transform:'scale(.97,1.04)'},{transform:'scale(1)'}],{duration:260,easing:'ease-out'});
+  anim(w,[{opacity:0,transform:'rotate(-8deg) scale(.6)'},{opacity:1,transform:'rotate(-8deg) scale(1)'}],{duration:360,easing:'cubic-bezier(.2,1.6,.4,1)'});
+ }else{s.classList.add('pressed');w.style.opacity=1}
+ sealed=true;sealing=false;const n=$('#fn').value.trim();
+ setTimeout(()=>{location.href=`mailto:${C.letter.email}?subject=${encodeURIComponent('A project for you'+(n?' · from '+n:''))}&body=${encodeURIComponent(letterText())}`;toast('Sealed. Opening your email ✉︎')},fast?0:650)};
+
+/* ---------- render everything from the content ---------- */
+function chh(id,idx){const c=C[id]||{};return `<div class="num">${ROMAN[idx]}</div><div><div class="k">Chapter ${WORDS[idx]} · ${esc(c.kicker||'')}</div><h2>${md(c.title)}</h2>${c.lead?`<p class="lead">${esc(c.lead)}</p>`:''}</div>`}
+function render(){
+ document.title=`${C.name} · ${C.role||''}`;const md_=$('meta[name=description]');if(md_)md_.content=C.description||'';
+ $('#preName').textContent=C.name;$('#sigName').textContent=C.name;$('#sigTag').textContent=C.tag||'';
+ const parts=String(C.name||'').trim().split(/\s+/),first=parts.shift()||'',rest=parts.join(' ');
+ $('#hName').setAttribute('aria-label',C.name);$('#hName').innerHTML=`<span class="w" style="animation-delay:${PREVIEW?0:.9}s">${esc(first)}</span>${rest?`<em><span class="w" style="animation-delay:${PREVIEW?.05:1.05}s">${esc(rest)}</span></em>`:''}`;
+ const H=C.hero;$('#hKick').textContent=H.kicker||'';$('#hPre').textContent=H.prefix||'';$('#cta1').textContent=H.cta1||'Read the work →';$('#cta2').textContent=H.cta2||'Start a project';
+ $('#hImg').src=H.photo||'praise.jpg';$('#hImg').alt=H.photoAlt||C.name;$('#hNote').textContent=H.note||'';$('#hNote').hidden=!H.note;$('#hStamp').textContent=H.stamp||'';
+ $('#sealL').textContent=(first[0]||'P').toUpperCase();$('#cta1').hidden=!on('shelf');$('#cta2').hidden=!on('letter');$('.nb.hire').hidden=!on('letter');
+ const S=(C.stats||[]).slice(0,4);$('#stats').hidden=!S.length;$('#stats').style.gridTemplateColumns=innerWidth>700?`repeat(${Math.max(1,S.length)},1fr)`:'';
+ $('#stats').innerHTML=S.map(s=>`<div><b data-n="${+s.n||0}">${counted?String(+s.n||0).padStart(2,'0'):'00'}</b><span>${esc(s.label)}</span></div>`).join('');
+ const SV=(C.services.items||[]).map(s=>s.title).filter(Boolean);$('#mq').innerHTML=[...SV,...SV].map(s=>`<span>${esc(s)}</span><span>✦</span>`).join('');
+ CH=ORDER.filter(on);ORDER.forEach(id=>{const sec=document.getElementById(id);sec.hidden=!on(id);if(on(id))sec.querySelector('.chh').innerHTML=chh(id,CH.indexOf(id))});
+ $('#cbar').innerHTML=CH.map((id,i)=>`<a href="#${id}" data-s="${id}"><b>${ROMAN[i]}</b><span class="lbl">${esc(C[id].nav||id)}</span></a>`).join('');
+ /* about */
+ $('#aBody').innerHTML=(C.about.paragraphs||[]).filter(Boolean).map(p=>`<p>${esc(p)}</p>`).join('');$('#aBelief').innerHTML=md(C.about.belief,'b');$('#aSign').textContent=C.about.beliefSign||'';$('.belief').hidden=!C.about.belief;
+ /* edit */
+ const E=C.edit;$('#eAd').innerHTML=(E.ad||[]).filter(Boolean).map((a,i)=>`<div class="shout c${i%3+1}">${esc(a)}</div>`).join('');$('#mn').textContent=E.margin||'';
+ $('#eStory').innerHTML=(E.story||[]).filter(Boolean).map(s=>`<p class="storyl">${esc(s)}</p>`).join('')+(E.quote?`<p class="storyl q">${esc(E.quote)}</p>`:'');$('#eMoral').innerHTML=md(E.moral,'b');
+ edit(+pen.value);
+ /* services */
+ $('#toc').innerHTML=(C.services.items||[]).map((s,i)=>`<li><button type="button" aria-expanded="false"><span class="n">${String(i+1).padStart(2,'0')}</span><span class="t">${esc(s.title)}</span><span class="pg">${ROMAN[i]?ROMAN[i].toLowerCase():i+1}</span></button><div class="d"><p>${esc(s.desc)}</p></div></li>`).join('');
+ $$('#toc li').forEach(li=>li.querySelector('button').onclick=()=>{const o=!li.classList.contains('open');$$('#toc li').forEach(x=>{x.classList.remove('open');x.querySelector('button').setAttribute('aria-expanded','false')});if(o){li.classList.add('open');li.querySelector('button').setAttribute('aria-expanded','true')}});
+ /* system */
+ const Y=C.system,P=Y.platforms||[];$('#sIntro').textContent=Y.intro||'';$('#sSteps').innerHTML=(Y.steps||[]).filter(Boolean).map(s=>`<li>${esc(s)}</li>`).join('');$('#sResult').innerHTML=md(Y.result,'span');$('#sCore').innerHTML=esc(Y.core||'one idea').replace(' ','<br>');
+ $$('.pl').forEach(b=>b.remove());let lines='';P.forEach((p,i)=>{const a=-Math.PI/2+i*2*Math.PI/Math.max(1,P.length),x=50+38*Math.cos(a),y=50+38*Math.sin(a);lines+=`<line x1="50" y1="50" x2="${x.toFixed(2)}" y2="${y.toFixed(2)}"/>`;
+  const b=document.createElement('button');b.className='pl';b.type='button';b.textContent=p.name;b.style.left=x+'%';b.style.top=y+'%';b.onclick=()=>pick(i);orb.appendChild(b)});$('#lines').innerHTML=lines;
+ $('#pfocus').innerHTML='<b>Tap a platform</b>Each one gets its own version of the same idea, never a copy-paste.';
+ /* shelf */
+ works=(C.shelf.works||[]).filter(w=>w&&w.title);const hs=[350,310,290,322,336,300,344];
+ $('#books').innerHTML=works.map((w,i)=>`<button class="book" type="button" data-i="${i}" style="background:${esc(w.color||PALETTE[i%PALETTE.length])};--w:${Math.max(72,Math.min(112,64+String(w.title).length))}px;--h:${hs[i%hs.length]}px" aria-label="Read: ${esc(w.title)}"><span class="bn">${String(i+1).padStart(2,'0')}</span><span class="bt">${esc(w.title)}</span><span class="bk">${esc(String(w.category||'').split(' · ')[0])}</span></button>`).join('')+'<div class="lean" aria-hidden="true"></div>';
+ $$('.book').forEach(b=>b.onclick=()=>openBook(+b.dataset.i));$('#wCount').textContent=`${works.length} piece${works.length===1?'':'s'}`;
+ /* story */
+ $('#fLabel').textContent=C.story.label||'';const nFL=(C.story.lines||[]).filter(Boolean);if(JSON.stringify(nFL)!==JSON.stringify(FL)){FL=nFL;freset()}
+ /* drafts */
+ $('#dList').innerHTML=(C.drafts.items||[]).map(d=>`<div class="dr"><div class="lines"></div><div class="k">${esc(d.kicker)}</div><h4>${esc(d.title)}</h4><p>${esc(d.desc)}</p>${d.status?`<div class="st"><span class="car"></span>${esc(d.status)}</div>`:''}</div>`).join('');
+ /* letter */
+ const L=C.letter;$('#cTo').textContent=`TO: ${String(C.name).toUpperCase()} · ${L.email}`;$('#cHint').textContent=L.hint||'';
+ need=new Set([...need].filter(n=>(L.needs||[]).includes(n)));$('#needs').innerHTML=(L.needs||[]).map(n=>`<button type="button" class="chip${need.has(n)?' on':''}">${esc(n)}</button>`).join('');
+ $$('#needs .chip').forEach(c=>c.onclick=()=>{c.classList.toggle('on');c.classList.contains('on')?need.add(c.textContent):need.delete(c.textContent);letter()});
+ $('#cSoc').innerHTML=(L.email?`<a href="mailto:${esc(L.email)}">${esc(L.email)}</a>`:'')+(L.socials||[]).filter(s=>s.url).map(s=>`<a href="${esc(/^https?:|^mailto:/.test(s.url)?s.url:'https://'+s.url)}" target="_blank" rel="noopener">${esc(s.label||s.url)}</a>`).join('');
+ letter();
+ $('#fEnd').innerHTML=md(C.footer.end,'span');$('#fCopy').textContent=C.footer.copy||'';
+ if(!PREVIEW)startTW();else{$('#tw').textContent=(C.hero.lines||[''])[0]||''}
+ onScroll()}
+
+/* content loading: saved version first, bundled default if the server is slow or down */
+async function boot(){let c=null;
+ try{const ctl=new AbortController(),t=setTimeout(()=>ctl.abort(),3500);const r=await fetch('/api/content',{signal:ctl.signal,cache:'no-store'});clearTimeout(t);if(r.ok)c=(await r.json()).content}catch(e){}
+ if(!c)try{c=await (await fetch('content.default.json')).json()}catch(e){}
+ if(!c){$('#pre').classList.add('out');return}
+ C=c;render();contentReady=true;lift();if(counted)countUp()}
+if(PREVIEW){addEventListener('message',e=>{if(e.origin!==location.origin||!e.data)return;
+  if(e.data.type==='pu-preview'){C=e.data.content;render();contentReady=true;$('#pre').classList.add('out');$$('.rv').forEach(x=>x.classList.add('in'))}
+  if(e.data.type==='pu-goto'){const el=document.getElementById(e.data.id)||document.body;scrollTo({top:e.data.id==='top'?0:el.getBoundingClientRect().top+scrollY-70,behavior:'smooth'})}});
+ parent.postMessage({type:'pu-ready'},location.origin)}
+boot();
 
 /* language menu (Google Translate, only when picked) */
 const LANGS=[['en','English'],['fr','Français'],['es','Español'],['pt','Português'],['de','Deutsch'],['it','Italiano'],['ar','العربية'],['sw','Kiswahili'],['ha','Hausa'],['yo','Yorùbá'],['ig','Igbo'],['zh-CN','中文'],['ja','日本語'],['ko','한국어'],['hi','हिन्दी'],['ru','Русский'],['tr','Türkçe'],['nl','Nederlands']];
 let lang=store.get('pu_lang')||'en';const lmp=$('#lmp'),lmb=$('#lmb');
 function drawLm(){lmp.innerHTML=LANGS.map(([c,n])=>`<button role="option" data-c="${c}" class="${c===lang?'on':''}">${n}<small>${c}</small></button>`).join('');$$('#lmp button').forEach(b=>b.onclick=()=>{setLang(b.dataset.c);openLm(false)});$('#lmn').textContent=(LANGS.find(x=>x[0]===lang)||LANGS[0])[1]}
-function openLm(on){lmp.hidden=!on;lmb.setAttribute('aria-expanded',on)}
+function openLm(o){lmp.hidden=!o;lmb.setAttribute('aria-expanded',o)}
 lmb.onclick=e=>{e.stopPropagation();openLm(lmp.hidden)};document.addEventListener('click',e=>{if(!e.target.closest('#lm'))openLm(false)});
 let gtP=null;function gtLoad(){if(gtP)return gtP;gtP=new Promise((res,rej)=>{window.gtInit=()=>{new google.translate.TranslateElement({pageLanguage:'en',autoDisplay:false},'gt');res()};const sc=document.createElement('script');sc.src='https://translate.google.com/translate_a/element.js?cb=gtInit';sc.onerror=rej;document.head.appendChild(sc)});return gtP}
 function gtSet(c){const t0=Date.now();return new Promise((res,rej)=>{(function go(){const s=document.querySelector('.goog-te-combo');if(s&&s.options.length>1){s.value=c;s.dispatchEvent(new Event('change'));return res()}if(Date.now()-t0>9000)return rej();setTimeout(go,250)})()})}
 async function setLang(c){lang=c;store.set('pu_lang',c);drawLm();document.documentElement.dir=c==='ar'?'rtl':'ltr';
  if(c==='en'){document.cookie='googtrans=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/';document.cookie='googtrans=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/;domain='+location.hostname;if(document.querySelector('.goog-te-combo'))location.reload();return}
  toast('Translating…');try{await gtLoad();await gtSet(c)}catch(e){toast('Translation could not load right now. Showing English.');lang='en';store.set('pu_lang','en');drawLm();document.documentElement.dir='ltr'}}
-drawLm();if(lang!=='en')setTimeout(()=>setLang(lang),700);
+drawLm();if(lang!=='en'&&!PREVIEW)setTimeout(()=>setLang(lang),1200);
 
 /* guided tour */
-const TOUR=[{t:'Welcome',b:'This portfolio reads like a book: eight short chapters about Praise Ucho, writer and brand strategist. Here\'s a 30-second walk through.'},
+const TOUR=[{t:'Welcome',b:()=>`This portfolio reads like a book: short chapters about ${C.name}. Here's a 30-second walk through.`},
  {sel:'#lamp',t:'Day or night',b:'Read on warm paper or by lamplight. Tap the switch any time.'},
  {sel:'#lm',t:'Any language',b:'Pick a language and the whole book translates.'},
- {sel:'#lab',go:'#edit',t:'II · The edit',b:'Drag the pen (or press Play) and watch a shouting ad turn into a story people stop for.'},
- {sel:'#toc',go:'#services',t:'III · Contents',b:'Everything Praise writes. Tap a line to open it.'},
- {sel:'#orbit',go:'#system',t:'IV · The system',b:'A real case study: one idea adapted for five platforms. Tap a platform to see how it changes.'},
- {sel:'#books',go:'#shelf',t:'V · The shelf',b:'Five pieces of real work. Pull any book off the shelf to read it in full.'},
- {sel:'#fic',go:'#story',t:'VI · The story',b:'Fiction, read one line at a time. Tap the page to turn each line.'},
- {sel:'.letter',go:'#letter',t:'VIII · A letter',b:'Want to work together? Write your note and press the wax seal. It opens your email, addressed and ready.'},
+ {sel:'#lab',go:'edit',t:'The edit',b:'Drag the pen (or press Play) and watch a shouting ad turn into a story people stop for.'},
+ {sel:'#toc',go:'services',t:'Contents',b:'Everything she writes. Tap a line to open it.'},
+ {sel:'#orbit',go:'system',t:'The system',b:'One idea adapted for every platform. Tap a platform to see how it changes.'},
+ {sel:'#books',go:'shelf',t:'The shelf',b:'Real work. Pull any book off the shelf to read it in full.'},
+ {sel:'#fic',go:'story',t:'The story',b:'Fiction, read one line at a time. Tap the page to turn each line.'},
+ {sel:'.letter',go:'letter',t:'A letter',b:'Want to work together? Write your note and press the wax seal. It opens your email, addressed and ready.'},
  {t:'One more thing',b:'Highlight any line you love to share it. Enjoy the read.'}];
-let ti=-1;const spot=$('#spot'),tc=$('#tcard');
-function go(sel){const el=$(sel);if(el)scrollTo({top:el.getBoundingClientRect().top+scrollY-70,behavior:RM?'auto':'smooth'})}
-function startTour(){$('#invite').classList.remove('on');store.set('pu_tour','1');ti=0;showStep()}
+let ti=-1,steps=[];const spot=$('#spot'),tc=$('#tcard');
+function go(id){const el=document.getElementById(id);if(el)scrollTo({top:el.getBoundingClientRect().top+scrollY-70,behavior:RM?'auto':'smooth'})}
+function startTour(){if(!C)return;steps=TOUR.filter(s=>!s.go||on(s.go));$('#invite').classList.remove('on');store.set('pu_tour','1');ti=0;showStep()}
 function endTour(){ti=-1;spot.classList.remove('on');tc.classList.remove('on')}
-function nextStep(d){if(ti<0)return;ti+=d;if(ti>=TOUR.length)return endTour();if(ti<0)ti=0;showStep()}
-function showStep(){const st=TOUR[ti],L=TOUR.length;
- tc.innerHTML=`<div class="ts"><span>${ti+1} / ${L}</span><span>esc to close</span></div><h4>${st.t}</h4><p>${st.b}</p><div class="tb2"><button class="sk" type="button">${ti===L-1?'':'Skip'}</button><span>${ti>0?'<button class="bk" type="button">Back</button>':''}<button class="nx" type="button">${ti===L-1?'Start reading':ti===0?'Show me':'Next'}</button></span></div>`;
+function nextStep(d){if(ti<0)return;ti+=d;if(ti>=steps.length)return endTour();if(ti<0)ti=0;showStep()}
+function showStep(){const st=steps[ti],L=steps.length,b=typeof st.b==='function'?st.b():st.b;
+ tc.innerHTML=`<div class="ts"><span>${ti+1} / ${L}</span><span>esc to close</span></div><h4>${st.t}</h4><p>${esc(b)}</p><div class="tb2"><button class="sk" type="button">${ti===L-1?'':'Skip'}</button><span>${ti>0?'<button class="bk" type="button">Back</button>':''}<button class="nx" type="button">${ti===L-1?'Start reading':ti===0?'Show me':'Next'}</button></span></div>`;
  tc.querySelector('.nx').onclick=()=>nextStep(1);const bk=tc.querySelector('.bk');if(bk)bk.onclick=()=>nextStep(-1);tc.querySelector('.sk').onclick=endTour;tc.classList.add('on');
  if(!st.sel){spot.classList.remove('on');place(null);return}if(st.go)go(st.go);
- setTimeout(()=>{if(ti<0||TOUR[ti]!==st)return;const el=$(st.sel);if(!el){spot.classList.remove('on');place(null);return}let r=el.getBoundingClientRect();
+ setTimeout(()=>{if(ti<0||steps[ti]!==st)return;const el=$(st.sel);if(!el){spot.classList.remove('on');place(null);return}let r=el.getBoundingClientRect();
   if(r.bottom>innerHeight-12||r.top<0){const t=Math.max(74,r.top);r={left:r.left,top:t,width:r.width,height:Math.max(80,Math.min(r.bottom,innerHeight-12)-t)}}
   const pd=8;Object.assign(spot.style,{left:(r.left-pd)+'px',top:(r.top-pd)+'px',width:(r.width+pd*2)+'px',height:(r.height+pd*2)+'px'});spot.classList.add('on');place(r)},st.go?(RM?60:800):60)}
 function place(r){const w=tc.offsetWidth||330,h=tc.offsetHeight||220,m=12;let x,y;
@@ -638,9 +679,8 @@ function place(r){const w=tc.offsetWidth||330,h=tc.offsetHeight||220,m=12;let x,
 addEventListener('keydown',e=>{if(ti<0)return;if(e.key==='Escape')endTour();if(e.key==='ArrowRight')nextStep(1);if(e.key==='ArrowLeft')nextStep(-1)});
 addEventListener('resize',()=>{if(ti>=0)showStep()});
 $('#tourb').onclick=startTour;$('#invgo').onclick=startTour;$('#invno').onclick=()=>{$('#invite').classList.remove('on');store.set('pu_tour','1')};
-if(!store.get('pu_tour')&&!/[?&]notour/.test(location.search))setTimeout(()=>{if(ti<0)$('#invite').classList.add('on')},3200);
-if(/[?&]tour/.test(location.search)&&!/notour/.test(location.search))setTimeout(startTour,1400);
-console.log('%c✎ You read the source too? Praise would like you. uchopraise65@gmail.com','font:italic 15px Georgia;color:#8b1e3f');
+if(!PREVIEW&&!store.get('pu_tour')&&!/[?&]notour/.test(location.search))setTimeout(()=>{if(ti<0)$('#invite').classList.add('on')},3600);
+if(!PREVIEW&&/[?&]tour/.test(location.search)&&!/notour/.test(location.search))setTimeout(startTour,1800);
 </script>
 </body>
 </html>

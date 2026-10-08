@@ -1,0 +1,288 @@
+{
+ "name": "Praise Ucho",
+ "role": "Writer & Brand Strategist",
+ "tag": "WRITER",
+ "description": "Praise Ucho writes stories people finish, and copy that gives brands a voice people remember. Content writing, brand storytelling, social copy, scriptwriting and fiction.",
+ "handle": "@onosverse",
+ "hero": {
+  "kicker": "Content writer · Brand strategist · Storyteller",
+  "prefix": "I write",
+  "lines": [
+   "stories people finish.",
+   "copy that gives brands a voice people remember.",
+   "scripts that hook from the first sentence.",
+   "product copy that turns browsing into buying.",
+   "fiction with real emotional depth."
+  ],
+  "cta1": "Read the work →",
+  "cta2": "Start a project",
+  "photo": "praise.jpg",
+  "photoAlt": "Portrait of Praise Ucho",
+  "note": "she writes stories people finish",
+  "stamp": "STORIES · COPY · SCRIPTS · FICTION ·"
+ },
+ "stats": [
+  {
+   "n": 4,
+   "label": "years writing"
+  },
+  {
+   "n": 2,
+   "label": "years scriptwriting"
+  },
+  {
+   "n": 5,
+   "label": "platforms, one voice"
+  },
+  {
+   "n": 2,
+   "label": "stories in progress"
+  }
+ ],
+ "show": {
+  "about": true,
+  "edit": true,
+  "services": true,
+  "system": true,
+  "shelf": true,
+  "story": true,
+  "drafts": true,
+  "letter": true
+ },
+ "about": {
+  "nav": "Writer",
+  "kicker": "The writer",
+  "title": "Stories people *finish.*",
+  "paragraphs": [
+   "I'm Praise Ucho, a writer who turns products, ideas, and complex topics into stories that hold attention and move people to act.",
+   "My work runs on one belief: strategy decides what a brand says, and story decides whether anyone listens. I take time to understand the product, the brand, and the people it's meant to reach before I write a word, then refine until the work fits the vision and does its job.",
+   "Four years of writing stand behind that claim, two of them scripting stories; the craft has been daily practice long before it became a career."
+  ],
+  "belief": "Strategy decides what a brand *says.* Story decides whether anyone *listens.*",
+  "beliefSign": "— the one rule"
+ },
+ "edit": {
+  "nav": "Edit",
+  "kicker": "The edit",
+  "title": "Watch an ad become *a story.*",
+  "lead": "Drag the pen. On the left, the ad everyone scrolls past. On the right, the one people stop for. Both are from Praise's own article.",
+  "ad": [
+   "50% off!",
+   "Limited stock!",
+   "Buy now!"
+  ],
+  "margin": "you scroll past without thinking",
+  "story": [
+   "A young woman getting ready for her first job interview.",
+   "Before she leaves the house, she reaches for a perfume sitting on her dressing table, a gift from her mother on graduation day.",
+   "She sprays it on, smiles at herself in the mirror, takes a deep breath, and walks out the door."
+  ],
+  "quote": "“Confidence isn't always loud. Sometimes, it smells familiar.”",
+  "moral": "You didn't stop because of the perfume. *You stopped because of the story.*"
+ },
+ "services": {
+  "nav": "Contents",
+  "kicker": "Contents",
+  "title": "What I *write.*",
+  "lead": "Seven ways in. Tap any line to open it.",
+  "items": [
+   {
+    "title": "Blog & article writing",
+    "desc": "Long-form content that builds trust and keeps readers reading to the end."
+   },
+   {
+    "title": "Social media copywriting",
+    "desc": "Captions and posts that stop the scroll and spark a reaction."
+   },
+   {
+    "title": "Product descriptions",
+    "desc": "Copy that turns browsing into buying."
+   },
+   {
+    "title": "Brand storytelling",
+    "desc": "Narratives that give a brand a voice people remember."
+   },
+   {
+    "title": "Brand content strategy",
+    "desc": "Strategy, calendars, and platform-specific adaptation across LinkedIn, X, Instagram, Facebook, and TikTok."
+   },
+   {
+    "title": "Scriptwriting",
+    "desc": "Scripts for video and social content that hook from the first sentence."
+   },
+   {
+    "title": "Creative writing",
+    "desc": "Fiction and narrative work with real emotional depth."
+   }
+  ]
+ },
+ "system": {
+  "nav": "System",
+  "kicker": "Case study",
+  "title": "One idea. *Five platforms.* One voice.",
+  "intro": "A Web3 personal brand needed a consistent online presence without duplicating the same post everywhere. I built the system.",
+  "steps": [
+   "Researched the space and the audience.",
+   "Drafted the brand's content strategy and a content calendar mapping angles, hooks, and posting cadence.",
+   "Adapted single core ideas into platform-specific content for LinkedIn, X, Instagram, Facebook, and TikTok.",
+   "Translated complex Web3 concepts into clear, conversational language for written and spoken formats."
+  ],
+  "core": "one idea",
+  "platforms": [
+   {
+    "name": "LinkedIn",
+    "note": "The professional angle: the same idea framed around lessons, credibility and what it means for the reader's work."
+   },
+   {
+    "name": "X",
+    "note": "The sharp angle: a hook in the first line, short and quotable, built for the timeline."
+   },
+   {
+    "name": "Instagram",
+    "note": "The visual angle: the idea carried by an image or carousel, with a caption that finishes the thought."
+   },
+   {
+    "name": "Facebook",
+    "note": "The conversational angle: written for community, comments and sharing with people you know."
+   },
+   {
+    "name": "TikTok",
+    "note": "The spoken angle: a script that hooks from the first sentence and explains it out loud."
+   }
+  ],
+  "result": "The result is a repeatable engine: *one idea, five platforms, one voice.*"
+ },
+ "shelf": {
+  "nav": "Work",
+  "kicker": "The shelf",
+  "title": "Selected *work.*",
+  "lead": "Pull a book off the shelf to read it in full.",
+  "works": [
+   {
+    "category": "Content Writing · Marketing & Brand Storytelling",
+    "title": "Why Customers Buy Stories, Not Just Products",
+    "minutes": 2,
+    "color": "#8b1e3f",
+    "proves": "narrative structure that makes a marketing idea feel human.",
+    "body": "People don't just buy products. They buy the story they believe the product will help them live.\n\nImagine you're scrolling through Instagram. The first post says: 50% OFF! LIMITED STOCK! BUY NOW! You scroll past without thinking.\n\nThen another post catches your attention. It's a short video of a young woman getting ready for her first job interview. Before she leaves the house, she reaches for a perfume sitting on her dressing table, a gift from her mother on graduation day. She sprays it on, smiles at herself in the mirror, takes a deep breath, and walks out the door.\n\n> “Confidence isn't always loud. Sometimes, it smells familiar.”\n\nWithout realizing it, you've watched the entire video. You didn't stop because of the perfume. You stopped because of the story.\n\nThat's the difference between selling a product and selling a feeling. A story.\n\nConsumers are exposed to an estimated 4,000 to 10,000 advertisements every day. Most are forgotten almost immediately, because they all compete the same way: shouting for attention and pushing for an immediate transaction. “Buy now.” “Limited offer.” “20% off, ending today.” Eventually, every ad starts sounding generic.\n\nYet every once in a while, one stays with us — not because it was louder or cheaper, but because it made us feel something. That's the power of storytelling.\n\nBusinesses often believe customers buy because of features and specifications. Those things matter, but if features alone sold products, every company offering similar quality at a similar price would enjoy the same success. They don't — because people mostly buy on emotion, and justify the decision with logic afterward.\n\n# Excerpt from a 1,540-word article. The full version is available on request."
+   },
+   {
+    "category": "Copywriting · Social Media Marketing",
+    "title": "Perfume Brand Instagram Launch Caption",
+    "minutes": 1,
+    "color": "#b8862b",
+    "proves": "brand voice and copy that carries a reader to the buy.",
+    "body": "As a woman, whether you're walking into an interview, a meeting, or your next big opportunity, the impression you leave should linger long after you've gone.\n\nAnd after a date, you want to leave behind something unforgettable. A scent that quietly says, “Remember me.”\n\nYour confidence should speak through your posture, your outfit, and most especially, your scent. The right fragrance doesn't just complete your look — it becomes part of your presence.\n\nThat's why we've curated collections for women who want a fragrance that lasts all day and matches their personality and lifestyle.\n\nFrom our El Floral Collection to our Age Strong Collection, we bring luxurious fragrances to women who want premium scents without paying luxury prices.\n\nBecause smelling good shouldn't only be for special occasions, it should be part of your everyday confidence.\n\n> We don't just sell perfume. We sell identity. We sell long-lasting confidence. We sell unforgettable impressions.\n\nReady to find your signature scent?\n\nClick the link in our bio, explore our collections, add your favourites to your cart, and we'll take care of the rest."
+   },
+   {
+    "category": "Copywriting · Promotional Marketing & E-commerce",
+    "title": "JMarket Promotion",
+    "minutes": 1,
+    "color": "#56664b",
+    "proves": "promotional copy built to drive one clear action.",
+    "body": "# Excerpt: opening of a limited-time promotional campaign.\n\nNow imagine watching it on a 100-inch TV from the comfort of your living room.\n\nSounds expensive?\n\nNot anymore.\n\nJMarket is giving you 20% OFF selected products, making it easier to get the items you've always wanted at prices you'll love.\n\nWhether you've been planning to upgrade your home, replace an old appliance, or finally buy that item you've been postponing, this is the perfect opportunity to save while you shop.\n\nWhy pay full price when you don't have to? The same quality. Just at a better price.\n\n> Spend less. Enjoy more.\n\nClick the link below to start shopping before the offer ends."
+   },
+   {
+    "category": "Copywriting · Product Description",
+    "title": "Fashion (Men's Shoe)",
+    "minutes": 1,
+    "color": "#2f3b4a",
+    "proves": "product storytelling that sells the feeling first.",
+    "body": "There's a kind of confidence that shows up in your stride before anyone compliments the shoes.\n\nThat's what this pair does: it makes a silent but solid statement.\n\nMade with the intention to stand out, this men's shoe instantly elevates your confidence the moment you put it on.\n\nSoft on the foot, sturdy where it counts. From the boardroom entrance to the second date to the interview where first impressions decide everything, it serves every purpose with grace.\n\nPair it with any outfit to deliver effortless luxury.\n\n* Soft, airy material | Elevated, strong sole | Luxurious design | Strong leather | Available sizes 42–46"
+   },
+   {
+    "category": "Creative Writing · Fiction",
+    "title": "Fiction Excerpt",
+    "minutes": 1,
+    "color": "#3b1d2b",
+    "proves": "an original voice with full command of tension and rhythm.",
+    "body": "The storytelling instinct that guides the samples above also drives my fiction. A brief piece in a different tone:\n\nI hear it, my name.\n\nI look around, hoping it's someone else, but no.\n\nHe points at me…gesturing for me to wait.\n\nMy heart drops to my stomach. Not fear…just that sinking disappointment.\n\nHe starts walking towards me. Slowly.\n\nEverything else fades. The noise. The movement. The people.\n\nIt's just that one sound now, my name being called, and it's what put me to a halt. I freeze.\n\n… I hate it.\n\nBeing called. Being noticed. Being put in the spotlight. It does something to me.\n\nSomething I can't explain…\n\nThis time,\n\n> …it's already too late to run."
+   }
+  ]
+ },
+ "story": {
+  "nav": "Story",
+  "kicker": "The story",
+  "title": "Read it the way *it was felt.*",
+  "lead": "The storytelling instinct behind the samples also drives the fiction. Tap the page to turn each line.",
+  "label": "Fiction excerpt",
+  "lines": [
+   "I hear it, my name.",
+   "I look around, hoping it's someone else, but no.",
+   "He points at me…gesturing for me to wait.",
+   "My heart drops to my stomach. Not fear…just that sinking disappointment.",
+   "He starts walking towards me. Slowly.",
+   "Everything else fades. The noise. The movement. The people.",
+   "It's just that one sound now, my name being called, and it's what put me to a halt. I freeze.",
+   "… I hate it.",
+   "Being called. Being noticed. Being put in the spotlight. It does something to me.",
+   "Something I can't explain…",
+   "This time,",
+   "…it's already too late to run."
+  ]
+ },
+ "drafts": {
+  "nav": "Desk",
+  "kicker": "On the desk",
+  "title": "Still *writing.*",
+  "items": [
+   {
+    "kicker": "Newsletter · Substack",
+    "title": "The AI Brief",
+    "desc": "A research-driven newsletter on AI, written without jargon, published on Substack.",
+    "status": "in progress"
+   },
+   {
+    "kicker": "Interactive fiction · Chapters",
+    "title": "A story with choices",
+    "desc": "An original interactive story with branching choices, serialized for readers on the Chapters platform.",
+    "status": "in progress"
+   },
+   {
+    "kicker": "Novel",
+    "title": "A book",
+    "desc": "An original novel intended for publication, currently in progress.",
+    "status": "in progress"
+   }
+  ]
+ },
+ "letter": {
+  "nav": "Letter",
+  "kicker": "A letter",
+  "title": "Let's write something *people finish.*",
+  "lead": "Available now for content writing, brand storytelling, social copy, and strategy work. Write your note, then press the seal.",
+  "email": "uchopraise65@gmail.com",
+  "needs": [
+   "Blog & articles",
+   "Social copy",
+   "Product descriptions",
+   "Brand storytelling",
+   "Content strategy",
+   "Scripts",
+   "Fiction"
+  ],
+  "socials": [
+   {
+    "label": "LinkedIn",
+    "url": "https://www.linkedin.com/in/praise-ucho-407717378"
+   },
+   {
+    "label": "X · @onosverse",
+    "url": "https://x.com/onosverse"
+   },
+   {
+    "label": "Substack · @onosverse",
+    "url": "https://substack.com/@onosverse"
+   },
+   {
+    "label": "TikTok · @praise_el_",
+    "url": "https://www.tiktok.com/@praise_el_"
+   }
+  ],
+  "hint": "press the seal to send ↗"
+ },
+ "footer": {
+  "end": "The *end*, for now.",
+  "copy": "© 2026 Praise Ucho · Content Writer · Brand Strategist · Storyteller"
+ }
+}

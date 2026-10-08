@@ -1,0 +1,6 @@
+{
+  "name": "praise-ucho",
+  "private": true,
+  "engines": { "node": ">=18" },
+  "dependencies": { "@vercel/blob": "^1.1.1" }
+}
